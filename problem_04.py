@@ -47,8 +47,11 @@ class Bank:
         return None
 
     def transfer(self, from_account, to_account, amount):
-        from_account.withdraw(amount)  
-        to_account.deposit(amount)
+        if from_account.get_balance() >= amount:  # bug: transferia antes de verificar o saldo, mas agora verifica
+            from_account.withdraw(amount)
+            to_account.deposit(amount)
+        else:
+            print("Transfer failed: Insufficient funds in the source account")
 
 
 def main():
