@@ -1,4 +1,4 @@
-#Declaração do problema: Dada uma matriz de números inteiros, encontre a soma máxima de uma submatriz de tamanho k.
+# Declaração do problema: Dada uma matriz de números inteiros, encontre a soma máxima de uma submatriz de tamanho k.
 
 def max_subarray_sum(arr, k):
     n = len(arr)
@@ -11,8 +11,9 @@ def max_subarray_sum(arr, k):
         max_sum += arr[i]
 
     window_sum = max_sum
-    for i in range(n - k):
-        window_sum = window_sum - arr[i] + arr[i + k]
+    for i in range(n - k + 1):  # bug: range(n - k) -> range(n - k + 1)
+        if i > 0:
+            window_sum = window_sum - arr[i - 1] + arr[i + k - 1]
         max_sum = max(max_sum, window_sum)
 
     return max_sum
@@ -28,9 +29,10 @@ def read_input():
 
 def main():
     arr, k = read_input()
-    result = max_subarray_sum(arr, k)
-    if result != -1:
-        print("Maximum sum of a subarray of size {} is {}".format(k, result))
+    if arr and k:  # bug: Verifica para garantir que a entrada é válida
+        result = max_subarray_sum(arr, k)
+        if result != -1:
+            print("Maximum sum of a subarray of size {} is {}".format(k, result))
 
 if __name__ == "__main__":
     main()
